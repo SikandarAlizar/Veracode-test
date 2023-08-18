@@ -1,0 +1,235 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from '@angular/core';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { CommonModule, DatePipe } from '@angular/common';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ProgressBarModule } from 'angular-progress-bar';
+import { Ng5SliderModule } from 'ng5-slider';
+
+import { AuthGuard } from './auth.guard';
+import { TokenInterceptor } from './token.interceptor';
+
+import { AppComponent } from './app.component';
+import { FilterTableComponent } from './components/filter-table/filter-table.component';
+import { HealthBarComponent } from './components/health-bar/health-bar.component';
+import { AppRoutingModule } from './app-routing.module';
+import { GetVideoService } from './services/get-video.service';
+import { GetAudioService } from './services/get-audio.service';
+import { ComponentsAllComponent } from './panels/components-all/components-all.component';
+import { AudioAllDevicesPanelComponent } from './panels/audio/audio-all-devices-panel/audio-all-devices-panel.component';
+import { AudioDevicePanelComponent } from './panels/audio/audio-device-panel/audio-device-panel.component';
+import { CloudAllUsersPanelComponent } from './panels/cloud/cloud-all-users-panel/cloud-all-users-panel.component';
+import { CloudUserPanelComponent } from './panels/cloud/cloud-user-panel/cloud-user-panel.component';
+import { CloudRoomPanelComponent } from './panels/cloud/cloud-room-panel/cloud-room-panel.component';
+import { CloudAllRoomsPanelComponent } from './panels/cloud/cloud-all-rooms-panel/cloud-all-rooms-panel.component';
+import { TableStylesComponent } from './panels/table-styles/table-styles.component';
+
+// Table filter components
+import { TableHealthIconComponent } from './components/table-icons/table-icon/table-health-icon.component';
+import { TableOnCallIconComponent } from './components/table-icons/table-oncall-icon/table-oncall-icon.component';
+import { TableSiteTypeIconComponent } from './components/table-icons/table-sitetype-icon/table-sitetype-icon.component';
+import { TableCogIconComponent } from './components/table-icons/table-cog-icon/table-cog-icon.component';
+
+//buttons components
+import { BtnRegStatsComponent } from './components/buttons/btn-reg-stats/btn-reg-stats.component';
+import { BtnLongMeetingsComponent } from './components/buttons/btn-long-meetings/btn-long-meetings.component';
+import { BtnQosComponent } from './components/buttons/btn-qos/btn-qos.component';
+import { BtnApiComponent } from './components/buttons/btn-api/btn-api.component';
+import { BtnQosDisabledComponent } from './components/buttons/btn-qos-disabled/btn-qos-disabled.component';
+
+import { BtnDeviceHealthComponent } from './components/buttons/btn-device-health/btn-device-health.component';
+import { BtnDeviceScreenComponent } from './components/buttons/btn-device-screen/btn-device-screen.component';
+import { BtnDeviceLogitechComponent } from './components/buttons/btn-device-logitech/btn-device-logitech.component';
+import { BtnDeviceZoomComponent } from './components/buttons/btn-device-zoom/btn-device-zoom.component';
+import { BtnDeviceCameraZoomComponent } from './components/buttons/btn-device-camera-zoom/btn-device-camera-zoom.component';
+import { BtnVolumeComponent } from './components/buttons/btn-volume/btn-volume.component';
+import { BtnUtilComponent } from './components/buttons/btn-util/btn-util.component';
+import { BtnUtilizationComponent } from './components/buttons/btn-utilization/btn-utilization.component';
+
+import { BtnInfoComponent } from './components/buttons/btn-info/btn-info.component';
+import { BtnAudioFirmwareUsersComponent } from './components/buttons/btn-audio-firmware-users/btn-audio-firmware-users.component';
+import { BtnAudioFirmwareDevicesComponent } from './components/buttons/btn-audio-firmware-devices/btn-audio-firmware-devices.component';
+import { BtnStatCallComponent } from './components/buttons/btn-stat-call/btn-stat-call.component';
+import { BtnTotalTalkComponent } from './components/buttons/btn-total-talk/btn-total-talk.component';
+//other components
+import { SystemHealthComponent } from './components/system-health/system-health.component';
+import { SystemTempComponent } from './components/system-temp/system-temp.component';
+import { InfoStatusComponent } from './components/info-status/info-status.component';
+//charts components
+import { ChartTwentyFourComponent } from './components/charts/chart-twenty-four/chart-twenty-four.component';
+import { ChartAudioTwentyfourhoursComponent } from './components/charts/chart-audio-twentyfourhours/chart-audio-twentyfourhours.component';
+import { BtnRoundedComponent } from './components/buttons/btn-rounded/btn-rounded.component';
+import { BtnBluetoothComponent } from './components/buttons/btn-bluetooth/btn-bluetooth.component';
+import { InfoUptimeComponent } from './components/info-uptime/info-uptime.component';
+import { DeviceNotesComponent } from './components/device-notes/device-notes.component';
+import { ScheduledMeetingsComponent } from './popups/scheduled-meetings/scheduled-meetings.component';
+import { ScheduledMeetingsSiteComponent } from './popups/scheduled-meetings-site/scheduled-meetings-site.component';
+import { DeviceHealthHistoryComponent } from './popups/device-health-history/device-health-history.component';
+import { DeviceCallHistoryComponent } from './popups/device-call-history/device-call-history.component';
+import { QosTestComponent } from './popups/qos-test/qos-test.component';
+import { AddRoomComponent } from './popups/add-room/add-room.component';
+import { AddUserComponent } from './popups/add-user/add-user.component';
+import { EditProfileComponent } from './popups/edit-profile/edit-profile.component';
+import { ChartAudioComponent } from './components/charts/chart-audio/chart-audio.component';
+import { ChartAudioTwentyfourhoursDnaComponent } from './components/charts/chart-audio-twentyfourhours-dna/chart-audio-twentyfourhours-dna.component';
+import { ChartSiteComponent } from './components/charts/chart-site/chart-site.component';
+import { SlackSlideoutComponent } from './components/slack-slideout/slack-slideout.component';
+import { BtnAudioLiveStatsComponent } from './components/buttons/btn-audio-live-stats/btn-audio-live-stats.component';
+import { PopupContainerComponent } from './popups/popup-container/popup-container.component';
+import { VideoAllsitesStatsPanelComponent } from './panels/video/video-allsites-stats-panel/video-allsites-stats-panel.component';
+import { VideoAllsitesPanelComponent } from './panels/video/video-allsites-panel/video-allsites-panel.component';
+import { VideoAllsitesInfoPanelComponent } from './panels/video/video-allsites-info-panel/video-allsites-info-panel.component';
+import { InfoDetailsComponent } from './components/info/info-details/info-details.component';
+import { VideoAllsitesListComponent } from './panels/video/video-allsites-list/video-allsites-list.component';
+import { RebootDeviceComponent } from './popups/reboot-device/reboot-device.component';
+import { MainMenuComponent } from './popups/main-menu/main-menu.component';
+import { PolycomPopupComponent } from './popups/polycom-popup/polycom-popup.component';
+import { CiscoPopupComponent } from './popups/cisco-popup/cisco-popup.component';
+import { ZoomPopupComponent } from './popups/zoom-popup/zoom-popup.component';
+import { BluejeansPopupComponent } from './popups/bluejeans-popup/bluejeans-popup.component';
+import { VisonePopupComponent } from './popups/visone-popup/visone-popup.component';
+import { HealthBlockComponent } from './panels/health-block/health-block.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { VideoSiteStatsPanelComponent } from './panels/video/video-site-stats-panel/video-site-stats-panel.component';
+import { VideoSiteInfoPanelComponent } from './panels/video/video-site-info-panel/video-site-info-panel.component';
+import { VideoSiteListPanelComponent } from './panels/video/video-site-list-panel/video-site-list-panel.component';
+import { VideoSitePanelComponent } from './panels/video/video-site-panel/video-site-panel.component';
+import { VideoDeviceInfoComponent } from './panels/video/video-device-info/video-device-info.component';
+import { VideoDeviceStatsComponent } from './panels/video/video-device-stats/video-device-stats.component';
+import { VideoDevicePanelComponent } from './panels/video/video-device-panel/video-device-panel.component';
+import { VideoAlldevicesPanelComponent } from './panels/video/video-alldevices-panel/video-alldevices-panel.component';
+import { VideoAlldevicesListComponent } from './panels/video/video-alldevices-list/video-alldevices-list.component';
+import { VideoAlldevicesInfoComponent } from './panels/video/video-alldevices-info/video-alldevices-info.component';
+import { VideoAlldevicesStatsComponent } from './panels/video/video-alldevices-stats/video-alldevices-stats.component';
+
+import { PanelToolsComponent } from './components/panel-tools/panel-tools.component';
+import { BtnHealthComponent } from './components/buttons/btn-health/btn-health.component';
+import { MainMenuMembershipComponent } from './popups/main-menu-membership/main-menu-membership.component';
+
+//services
+import { PopupTypeService } from './services/popupType.service';
+import { MainMenuTypeService } from './services/mainmenuType.service';
+import { MembersTypeService } from './services/membersType.service';
+import { JabraPopupComponent } from './popups/jabra-popup/jabra-popup.component';
+import { PlantronicsPopupComponent } from './popups/plantronics-popup/plantronics-popup.component';
+import { SlackPopupComponent } from './popups/slack-popup/slack-popup.component';
+import { SolarwindsPopupComponent } from './popups/solarwinds-popup/solarwinds-popup.component';
+import { ChartAudioTwentyfourhoursUserComponent } from './components/charts/chart-audio-twentyfourhours-user/chart-audio-twentyfourhours-user.component';
+import { ChartCloudMbpsComponent } from './components/charts/chart-cloud-mbps/chart-cloud-mbps.component';
+import { CloudAllRoomsInfoComponent } from './panels/cloud/cloud-all-rooms-info/cloud-all-rooms-info.component';
+import { CloudAllRoomsListComponent } from './panels/cloud/cloud-all-rooms-list/cloud-all-rooms-list.component';
+import { CloudAllIncidentsListComponent } from './panels/cloud/cloud-all-incidents-list/cloud-all-incidents-list.component';
+import { VideoAllIncidentsListComponent } from './panels/video/video-all-incidents-list/video-all-incidents-list.component';
+
+import { CloudAllRoomsStatsComponent } from './panels/cloud/cloud-all-rooms-stats/cloud-all-rooms-stats.component';
+
+import { GetCloudService } from './services/get-cloud.service';
+
+import { VisoneSiteService } from './services/get-visone-installedsites.service';
+import { TableStatusIconComponent } from './components/table-icons/table-status-icon/table-status-icon.component';
+import { AudioAllDevicesListComponent } from './panels/audio/audio-all-devices-list/audio-all-devices-list.component';
+import { AudioAllDevicesInfoComponent } from './panels/audio/audio-all-devices-info/audio-all-devices-info.component';
+import { AudioAllDevicesStatsComponent } from './panels/audio/audio-all-devices-stats/audio-all-devices-stats.component';
+import { AudioDeviceListComponent } from './panels/audio/audio-device-list/audio-device-list.component';
+import { AudioDeviceInfoComponent } from './panels/audio/audio-device-info/audio-device-info.component';
+import { AudioDeviceStatsComponent } from './panels/audio/audio-device-stats/audio-device-stats.component';
+import { LoginComponent } from './panels/login/login/login.component';
+import { AdminComponent } from './panels/login/admin/admin.component';
+
+import { BtnRegAudioUserComponent } from './components/buttons/btn-reg-audio-user/btn-reg-audio-user.component';
+import { CloudRoomInfoComponent } from './panels/cloud/cloud-room-info/cloud-room-info.component';
+import { CloudRoomStatsComponent } from './panels/cloud/cloud-room-stats/cloud-room-stats.component';
+import { CloudUserStatsComponent } from './panels/cloud/cloud-user-stats/cloud-user-stats.component';
+import { CloudUserInfoComponent } from './panels/cloud/cloud-user-info/cloud-user-info.component';
+import { CloudAllUsersInfoComponent } from './panels/cloud/cloud-all-users-info/cloud-all-users-info.component';
+import { CloudAllUsersListComponent } from './panels/cloud/cloud-all-users-list/cloud-all-users-list.component';
+import { CloudAllUsersStatsComponent } from './panels/cloud/cloud-all-users-stats/cloud-all-users-stats.component';
+import { CloudLiveCallListComponent } from './components/cloud-live-call-list/cloud-live-call-list.component';
+import { CloudUserConnectedDevicesComponent } from './components/cloud-user-connected-devices/cloud-user-connected-devices.component';
+import { CloudRoomAnalyticsComponent } from './components/cloud-room-analytics/cloud-room-analytics.component';
+import { CloudRecordingsComponent } from './popups/cloud-recordings/cloud-recordings.component';
+import { RegistrationComponent } from './panels/login/registration/registration.component';
+import { NewUserRegistrationComponent } from './panels/login/newuserregistration/newuserregistration.component';
+import { ForgotPasswordComponent } from './panels/login/forgot-password/forgot-password.component';
+import { CreateSiteComponent } from './popups/create-site/create-site.component';
+import { CreateVirtualSiteComponent } from './popups/create-virtual-site/create-virtual-site.component';
+import { EnterPinComponent } from './popups/enter-pin/enter-pin.component';
+import { SupportFormComponent } from './popups/support-form/support-form.component';
+import { CloudCallsMonthComponent } from './popups/cloud-calls-month/cloud-calls-month.component';
+import { ChartCloudDnaComponent } from './components/charts/chart-cloud-dna/chart-cloud-dna.component';
+import { ChartVideoDnaComponent } from './components/charts/chart-video-dna/chart-video-dna.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BtnRegSoftphoneComponent } from './components/buttons/btn-reg-softphone/btn-reg-softphone.component';
+import { AccountComponent } from './popups/account/account.component';
+import { RegistrationConfirmComponent } from './panels/login/registration-confirm/registration-confirm.component';
+import { BtnDeviceCameraHealthComponent } from './components/buttons/btn-device-camera-health/btn-device-camera-health.component';
+import { InfoSiteDetailsComponent } from './components/info/info-site-details/info-site-details.component';
+import { NotAvailableComponent } from './popups/not-available/not-available.component';
+import { ReportsComponent } from './popups/reports/reports.component';
+import { WholeNumberPipe } from './pipes/whole-number.pipe';
+import { TwoDecimalsPipe } from './pipes/two-decimals.pipe';
+import { BtnRegStatsTwodecComponent } from './components/buttons/btn-reg-stats-twodec/btn-reg-stats-twodec.component';
+import { ResetPasswordComponent } from './panels/login/reset-password/reset-password.component';
+import { TableQosIconComponent } from './components/table-icons/table-qos-icon/table-qos-icon.component';
+import { BtnRegStatsNotComponent } from './components/buttons/btn-reg-stats-not/btn-reg-stats-not.component';
+import { RescanComponent } from './popups/rescan/rescan.component';
+import { AdminToolsComponent } from './popups/admin-tools/admin-tools.component';
+import { ReportsMainPanelComponent } from './panels/reports/reports-main-panel/reports-main-panel.component';
+import { ReportsTitlePanelComponent } from './panels/reports/reports-title-panel/reports-title-panel.component';
+import { ReportsTopFiveListComponent } from './panels/reports/reports-top-five-list/reports-top-five-list.component';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReportsVideoConfHealthComponent } from './panels/reports/reports-video-conf-health/reports-video-conf-health.component';
+import { ReportsVideoConfHuddleComponent } from './panels/reports/reports-video-conf-huddle/reports-video-conf-huddle.component';
+import { ReportsVideoConfStatsComponent } from './panels/reports/reports-video-conf-stats/reports-video-conf-stats.component';
+import { ReportsVideoConfRoomsComponent } from './panels/reports/reports-video-conf-rooms/reports-video-conf-rooms.component';
+import { ReportsVideoConfDevicesComponent } from './panels/reports/reports-video-conf-devices/reports-video-conf-devices.component';
+import { ReportsCoverSheetComponent } from './panels/reports/reports-cover-sheet/reports-cover-sheet.component';
+import { ReportsIncidentSheetComponent } from './panels/reports/reports-incident-sheet/reports-incident-sheet.component';
+import { ReportsInventoryComponent } from './panels/reports/reports-inventory/reports-inventory.component';
+import { TokenLoginComponent } from './panels/login/token-login/token-login.component';
+import { EditSiteComponent } from './popups/edit-site/edit-site.component';
+import { TableZoomOnCallComponent } from './components/table-icons/table-zoom-on-call/table-zoom-on-call.component';
+import { BtnBitrateComponent } from './components/buttons/btn-bitrate/btn-bitrate.component';
+import { TableColorRowComponent } from './components/table-icons/table-color-row/table-color-row.component';
+import { ScheduledMeetingsZoomComponent } from './popups/scheduled-meetings-zoom/scheduled-meetings-zoom.component';
+import { CallsThisMonthComponent } from './popups/calls-this-month/calls-this-month.component';
+import { LazyForDirective } from './directives/lazyFor.directive';
+import { BtnRecordingComponent } from './components/buttons/btn-recording/btn-recording.component';
+import { TooltipStatsComponent } from './panels/tooltip-stats/tooltip-stats.component';
+import { AlertsPanelComponent } from './panels/alerts-panel/alerts-panel.component';
+import { TokenLoginAdminComponent } from './panels/login/token-login-admin/token-login-admin.component';
+import { ReversePipe } from './pipes/reverse.pipe';
+import { ChartQosComponent } from './components/charts/chart-qos/chart-qos.component';
+
+// material table
+
+import { CloudAllUsersListTableComponent } from './panels/cloud/cloud-all-users-list-table/cloud-all-users-list-table.component';
+import { CloudAllRoomsListTableComponent } from './panels/cloud/cloud-all-rooms-list-table/cloud-all-rooms-list-table.component';
+import { VideoAlldevicesListTableComponent } from './panels/video/video-alldevices-list-table/video-alldevices-list-table.component';
+import { VideoAllsitesListTableComponent } from './panels/video/video-allsites-list-table/video-allsites-list-table.component';
+import { VideoSiteDevicesListTableComponent } from './panels/video/video-site-devices-list-table/video-site-devices-list-table.component';
+import { AudioAllsitesInfoPanelComponent } from './panels/audio/audio-allsites-info-panel/audio-allsites-info-panel.component';
+import { AudioAllsitesListComponent } from './panels/audio/audio-allsites-list/audio-allsites-list.component';
+import { AudioAllsitesListTableComponent } from './panels/audio/audio-allsites-list-table/audio-allsites-list-table.component';
+import { AudioAllsitesStatsPanelComponent } from './panels/audio/audio-allsites-stats-panel/audio-allsites-stats-panel.component';
+import { AudioSiteDevicesListTableComponent } from './panels/audio/audio-site-devices-list-table/audio-site-devices-list-table.component';
+import { AudioSiteInfoPanelComponent } from './panels/audio/audio-site-info-panel/audio-site-info-panel.component';
+import { AudioSiteListPanelComponent } from './panels/audio/audio-site-list-panel/audio-site-list-panel.component';
+import { AudioSitePanelComponent } from './panels/audio/audio-site-panel/audio-site-panel.component';
+import { AudioSiteStatsPanelComponent } from './panels/audio/audio-site-stats-panel/audio-site-stats-panel.component';
+import { AudioAllsitesPanelComponent } from './panels/audio/audio-allsites-panel/audio-allsites-panel.component';
+import { AudioAllDevicesListTableComponent } from './panels/audio/audio-all-devices-list-table/audio-all-devices-list-table.component';
+import { BtnMicComponent } from './components/buttons/btn-mic/btn-mic.component';
+import { BtnWireComponent } from './components/buttons/btn-wire/btn-wire.component';
+import { BtnSignalComponent } from './components/buttons/btn-signal/btn-signal.component';
+import { BtnServiceComponent } from './components/buttons/btn-service/btn-service.component';
+import { BtnCheckCrossComponent } from './components/buttons/btn-check-cross/btn-check-cross.component';
+import { BtnHandsetComponent } from './components/buttons/btn-handset/btn-handset.component';
+import { BtnCallDurationComponent } from './components/buttons/btn-call-duration/btn-call-duration.component';
+import { ChartAudio60MinViewComponent } from './components/charts/chart-audio60-min-view/chart-audio60-min-view.component';
+import { ChartAudioDnaComponent } from './components/charts/chart-audio-dna/chart-audio-dna.component';
+import { AudioDeviceCallHistoryComponent } from './popups/audio-device-call-history/audio-device-call-history.component';
+import { CollectorOfflineNotificationsComponent } from './popups/collector-offline-notifications/collector-offline-notifications.component';
