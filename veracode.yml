@@ -1,0 +1,35 @@
+name: veracode-checking
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches:
+      - "**"
+jobs:
+  VeracodeScan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-java@v1 # Make java accessible on path so the uploadandscan action can run.
+        with:
+          java-version: "8"
+      - name: Zipping files
+        uses: papeloto/action-zip@v1
+        with:
+          files: apache2
+          dest: visibility.zip
+      - name: Upload and Scan
+        uses: veracode/veracode-uploadandscan-action@master # Run the uploadandscan action. Inputs are described above.
+        with:
+          appname: VisibilityOne
+          filepath: "visibility.zip"
+          createprofile: false
+          vid: "${{ secrets.VERACODE_API_ID }}"
+          vkey: "${{ secrets.VERACODE_API_KEY }}"
+          createsandbox: "false"
+          exclude: "*.js"
+          scantimeout: "30"
+          sandboxname: "Dashboard's Sandbox"
+          criticality: "VeryHigh"
